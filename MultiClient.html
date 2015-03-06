@@ -1,0 +1,1288 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=720, user-scalable=no">
+		<title>EER Optimizer</title>
+    
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.alerts.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    
+	</head>
+
+	<body>
+  
+  	<!-- start .page -->
+  	<div class="page">
+    
+			<!-- start .main.page-main-->
+      <div class="main view  page-main active">
+        
+        <!-- start .main .content -->
+        <div class="content main">
+        	<div class="section main-status">
+          	<div class="plain-title">
+        			Status
+        		</div>
+            <div class="cooling-status threeD">
+              <span id="main-site-name">&nbsp;</span>
+            </div>
+            <div class="tabs comp2 active">
+              <div id="up" class="threeD tab dead">&nbsp;</div>
+              <div id="tab_blower" class="threeD main-blower tab">Blower</div>
+              <div id="tab_comp1" class="threeD main-comp1 tab">Comp 1</div>
+              <div id="tab_comp2" class="threeD main-comp2 tab">Comp 2</div>
+              <div id="tab_fan" class="threeD main-fan tab">Fan</div>
+            </div>
+            <div class="tabs comp4">
+              <div id="up" class="threeD tab dead">&nbsp;</div>
+              <div id="tab_blower" class="threeD main-blower tab">Blower</div>
+              <div id="tab_comp1a" class="threeD main-comp1a tab">C1A</div>
+              <div id="tab_comp1b" class="threeD main-comp1b tab">C1B</div>
+              <div id="tab_comp2a" class="threeD main-comp2a tab">C2A</div>
+              <div id="tab_comp2b" class="threeD main-comp2b tab">C2B</div>
+              <div id="tab_fan" class="threeD main-fan tab">Fan</div>
+            </div>
+          </div>
+          
+          <!-- start comp2 pane -->
+          <div class="main-comp2-pane">
+            
+            <div class="section main-faults">
+              <div class="plain-title">
+                Faults
+              </div>
+              <div class="comp2-faults threeD">
+                <div id="comp2-faults-box">None</div>
+              </div>
+            </div>
+            
+            <div class="section main-mode">
+              <div class="plain-title">
+                Run Mode
+              </div>
+			  
+              <div class="main-mode-buttons">
+                <div id="mode_oem" class="mode-button oem" onclick="Ctrl.Mode(3)">
+                	<div>
+                  	<p>OEM</p>
+                  </div>
+                </div>
+                <div id="mode_manual" class="mode-button manual" onclick="Ctrl.Mode(2)">
+                	<div>
+                  	<p>Manual</p>
+                  </div>
+                </div>
+                <div id="mode_optimize" class="mode-button optimize" onclick="Ctrl.Mode(1)">
+                	<div>
+                  	<p>Optimize</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="section main-gauges">
+            	<div class="col first">
+              	<div class="plain-title">
+                	Power kW
+              	</div>
+                <div id="main-power-gauge"></div>
+            	</div>
+              <div class="col last">
+              	<div class="plain-title">
+                	Capacity Tons
+              	</div>
+                <div id="main-capacity-gauge"></div>
+            	</div>
+              <div class="full">
+              	<div class="plain-title">
+                	<span style="color: #EEAF42; font-weight: 700;">Entering</span> and <span style="color: #0072f1; font-weight: 700;">Supply</span> Air Temperatures
+              	</div>
+                <div id="main-air-temps-gauge"></div>
+              </div>
+            </div>
+            
+          </div>
+          <!-- end comp2 pane -->
+          
+          <div class="section last main-date">
+            <div class="plain-title">
+              Date &amp; Time
+            </div>
+            <div id="main-date-time" class="threeD">
+              <div id="comp2-faults-box">None</div>
+            </div>
+          </div>
+          
+        </div>
+        <!-- end .main .content -->
+        
+      </div>
+      <!-- end .main.page-main -->
+      
+      
+      <!-- start .main.page-refrigerant -->
+      <div class="main view page-refrigerant">
+      
+      	<!-- start .page-title -->
+      	<div class="page-title">
+        	<div id="tab-circuit" class="threeD circuit tab c1" data-page="refrigerant" data-circuit="1">Circuit 1</div>
+        	<p>Refrigerant <strong>[ <span class="refrigerant-type"></span> ]</strong></p>
+        </div>
+        <!-- end .page-title -->
+        
+        <!-- start .main.page-refrigerant .content -->
+        <div class="content">
+        	<!-- start .circuit1 -->
+        	<div class="circuit1">
+            <!-- start col.low -->
+            <div class="col low">
+              <div class="col-title">
+                <p>Low</p>
+              </div>
+              <div class="gauge full-dial">
+                <div id="low-pressure-gauge">
+                </div>
+                <div class="lcd-display">
+                  <span id="low-pressure-readout"></span>
+                </div>
+              </div>
+              <div class="col-subtitle">
+                <p>Sat Temp</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="low-sat-temp">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+              <div class="col-subtitle">
+                <p>Flow Temp</p>
+              </div>
+              <div class="gauge half-dial">
+                <div id="low-flow-temp-gauge" class="cropped"></div>
+              </div>
+              <div class="col-subtitle">
+                <p>Superheat</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="low-superheat">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+              <div class="col-subtitle">
+                <p>Target Temp</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="low-target-temp">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+              <div class="col-subtitle">
+                <p>Flow Delta</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="low-flow-delta">0</span><sub class="temp-unit"> PSIG</sub></p> 
+              </div>
+            </div>
+            <!-- end .col.low -->
+            
+            <!-- start col.high -->
+            <div class="col high">
+              <div class="col-title">
+                <p>High</p>
+              </div>
+              <div class="gauge full-dial">
+              <div id="high-pressure-gauge"></div>
+                <div class="lcd-display">
+                  <span id="high-pressure-readout"></span>
+                </div>
+              </div>
+              <div class="col-subtitle">
+                <p>Sat Temp</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="high-sat-temp">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+              <div class="col-subtitle">
+                <p>Flow Temp</p>
+              </div>
+              <div class="gauge half-dial">
+                <div id="high-flow-temp-gauge" class="cropped"></div>
+              </div>
+              <div class="col-subtitle">
+                <p>Subcool</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="high-subcool">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+              <div class="col-subtitle">
+                <p>Target Temp</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="high-target-temp">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+              <div class="col-subtitle">
+                <p>Flow PSIG</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="high-flow-psi">0</span><sub class="temp-unit"> PSIG</sub></p> 
+              </div>
+            </div>
+            <!-- end .col.high -->
+          </div>
+          <!-- end .circuit1 -->
+          
+          <!-- start .circuit2 -->
+          <div class="circuit2">
+            <!-- start col.low -->
+            <div class="col low">
+              <div class="col-title">
+                <p>Low</p>
+              </div>
+              <div class="gauge full-dial">
+                <div id="c2-low-pressure-gauge">
+                </div>
+                <div class="lcd-display">
+                  <span id="c2-low-pressure-readout"></span>
+                </div>
+              </div>
+              <div class="col-subtitle">
+                <p>Sat Temp</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="c2-low-sat-temp">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+              <div class="col-subtitle">
+                <p>Flow Temp</p>
+              </div>
+              <div class="gauge half-dial">
+                <div id="c2-low-flow-temp-gauge" class="cropped"></div>
+              </div>
+              <div class="col-subtitle">
+                <p>Superheat</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="c2-low-superheat">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+              <div class="col-subtitle">
+                <p>Target Temp</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="c2-low-target-temp">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+			  			<div class="col-subtitle">
+                <p>Flow Delta</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="c2-low-flow-delta">0</span><sub class="temp-unit"> PSIG</sub></p> 
+              </div>
+            </div>
+            <!-- end .col.low -->
+            
+            <!-- start col.high -->
+            <div class="col high">
+              <div class="col-title">
+                <p>High</p>
+              </div>
+              <div class="gauge full-dial">
+              <div id="c2-high-pressure-gauge"></div>
+                <div class="lcd-display">
+                  <span id="c2-high-pressure-readout"></span>
+                </div>
+              </div>
+              <div class="col-subtitle">
+                <p>Sat Temp</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="c2-high-sat-temp">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+              <div class="col-subtitle">
+                <p>Flow Temp</p>
+              </div>
+              <div class="gauge half-dial">
+                <div id="c2-high-flow-temp-gauge" class="cropped"></div>
+              </div>
+              <div class="col-subtitle">
+                <p>Subcool</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="c2-high-subcool">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+              <div class="col-subtitle">
+                <p>Target Temp</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="c2-high-target-temp">0</span><sub class="temp-unit"> &deg;F</sub></p> 
+              </div>
+              <div class="col-subtitle">
+                <p>Flow PSIG</p>
+              </div>
+              <div class="readout temp">
+                <p><span id="c2-high-flow-psi">0</span><sub class="temp-unit"> PSIG</sub></p> 
+              </div>
+            </div>
+            <!-- end .col.high -->
+          </div>
+          <!-- end .circuit2 -->
+        </div>
+        <!-- end .main .content -->
+        
+      </div>
+      <!-- end .main.refrigerant -->
+      
+      <!-- start .main.page-energy -->
+      <div class="main view page-energy">
+        
+        <!-- start .main .content -->
+        <div class="content energy">
+        	
+          <!-- start .efficiency -->
+          	<div class="section efficiency">
+            	<h3 class="section-title">Efficiency</h3>
+              <div class="pid">
+              	<div class="label">EER Btuh per Watt</div>
+                <div id="eer-btuh-watt" class="value">0.0</div>
+              </div>
+              <div style="padding: 14px 20px 15px 20px; position: relative;">
+              	<div class="gauge-border"></div>
+              	<div id="efficiency-line-gauge">
+              	</div>
+              </div>
+              <div class="pid">
+              	<div class="label">IEER MBTU per kWh</div>
+                <div id="ieer-btuh-watt" class="value">0.0</div>
+              </div>
+            </div>
+          <!-- end .efficiency -->
+          
+          <!-- start .stats -->
+          	<div class="section stats">
+            	<h3 class="section-title">Stats</h3>
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <th></th>
+                  <th>EER</th>
+                  <th>IEER</th>
+                  <th>kW/T</th>
+                </tr>
+                <tr>
+                  <td>OEM</td>
+                  <td><span id="stats-oem-eer">12.0</span></td>
+                  <td><span id="stats-oem-ieer">14.6</span></td>
+                  <td><span id="stats-oem-kwt">1.0</span></td>
+                </tr>
+                <tr>
+                  <td>Highest</td>
+                  <td><span id="stats-high-eer">0.0</span></td>
+                  <td><span id="stats-high-ieer">0.0</span></td>
+                  <td><span id="stats-high-kwt">0.0</span></td>
+                </tr>
+                <tr>
+                  <td>Lowest</td>
+                  <td><span id="stats-low-eer">20</span></td>
+                  <td><span id="stats-low-ieer">20</span></td>
+                  <td><span id="stats-low-kwt">4</span></td>
+                </tr>
+                <tr>
+                  <td>To Date</td>
+                  <td><span id="stats-tod-eer">0.0</span></td>
+                  <td><span id="stats-tod-ieer">0.0</span></td>
+                  <td><span id="stats-tod-kwt">0.0</span></td>
+                </tr>
+              </table>
+            </div>
+          <!-- end .stats -->
+          
+          <!-- start .savings -->
+          	<div class="section savings">
+            	<h3 class="section-title">Savings</h3>
+              <div class="pid">
+              	<div class="label">Run Time to Date</div>
+                <div class="value threeD"><span id="savings-run-time">0.0</span> Hours</div>
+              </div>
+              <div class="pid">
+              	<div class="label">Energy Savings</div>
+                <div class="value threeD"><span id="savings-energy-savings">0.0</span> kWh</div>
+              </div>
+              <div class="pid">
+              	<div class="label">Cost Savings</div>
+                <div class="value threeD">$<span id="savings-cost-savings">0.0</span></div>
+              </div>
+             	<div class="pid">
+              	<div class="label">Efficiency Increase</div>
+                <div class="value threeD"><span id="savings-efficiency-increase">0.0</span>%</div>
+              </div>
+            </div>
+          <!-- end .savings -->
+          
+        </div>
+        <!-- end .main .content -->
+        
+      </div>
+      <!-- end .main.page-energy -->
+      
+      
+      
+      <!-- start .main.page-thermo -->
+      <div class="main view page-thermo">
+        
+        <!-- start .main.page-thermo .content -->
+        <div class="content">
+        
+        	<!-- start .thermo-cutaway -->
+        	<div class="thermo-cutaway">
+          	<img src="images/carrier-cutaway.jpg" width="586" />
+            
+
+            <div id="thermo-help" class="">
+            	<a href="javascript:void(0);"><img src="images/help.gif" width="32" height="32" /></a>
+            </div>
+            
+            <!-- start .entering-air -->
+            <div class="thermo-callout black entering-air">
+            	<h4>Entering Air</h4>
+              <table cellspacing="0" cellpadding="0">
+              	<tr>
+                	<td>EAT</td>
+                  <td><span id="eat">0.0</span> &deg;F</td>
+                </tr>
+                <tr>
+                	<td>ERH</td>
+                  <td><span id="erh">0.0</span> %</td>
+                </tr>
+                <tr>
+                	<td>EWB</td>
+                  <td><span id="ewb">0.0</span> &deg;F</td>
+                </tr>
+                <tr>
+                	<td>EDP</td>
+                  <td><span id="edp">0.0</span> &deg;F</td>
+                </tr>
+                <tr>
+                	<td>EGR</td>
+                  <td><span id="egr">0.0</span></td>
+                </tr>
+              </table>
+            </div>
+            <!-- end .entering-air -->
+            
+            <!-- start .entering-air.help -->
+            <div class="thermo-callout black entering-air help">
+            	<h4>Entering Air</h4>
+              <table cellspacing="0" cellpadding="0">
+              	<tr>
+                	<td>EAT</td>
+                  <td>Temperature</td>
+                </tr>
+                <tr>
+                	<td>ERH</td>
+                  <td>Relative Humidity</td>
+                </tr>
+                <tr>
+                	<td>EWB</td>
+                  <td>Wet Bulb</td>
+                </tr>
+                <tr>
+                	<td>EDP</td>
+                  <td>Dew Point</td>
+                </tr>
+                <tr>
+                	<td>EGR</td>
+                  <td>Grains per Lb</td>
+                </tr>
+              </table>
+            </div>
+            <!-- end .entering-air.help -->
+            
+            <!-- start .condenser -->
+            <div class="thermo-callout black condenser">
+            	<h4>Condenser</h4>
+              <table cellspacing="0" cellpadding="0">
+              	<tr>
+                	<td>OAT</td>
+                  <td><span id="oat">0.0</span> &deg;F</td>
+                </tr>
+                <tr>
+                	<td>ORH</td>
+                  <td><span id="orh">0.0</span> %</td>
+                </tr>
+                <tr>
+                	<td>OWB</td>
+                  <td><span id="owb">0.0</span> &deg;F</td>
+                </tr>
+                <tr>
+                	<td>ODP</td>
+                  <td><span id="odp">0.0</span> &deg;F</td>
+                </tr>
+                <tr>
+                	<td>OGR</td>
+                  <td><span id="ogr">0.0</span></td>
+                </tr>
+                <tr>
+                	<td>CFS</td>
+                  <td><span id="cfs">0.0</span> %</td>
+                </tr>
+              </table>
+            </div>
+            <!-- end .condenser -->
+            
+            <!-- start .condenser.help -->
+            <div class="thermo-callout black condenser help">
+            	<h4>Condenser</h4>
+              <table cellspacing="0" cellpadding="0">
+              	<tr>
+                	<td>OAT</td>
+                  <td>Outside Air</td>
+                </tr>
+                <tr>
+                	<td>ORH</td>
+                  <td>Relative Humidity</td>
+                </tr>
+                <tr>
+                	<td>OWB</td>
+                  <td>Wet Bulb</td>
+                </tr>
+                <tr>
+                	<td>ODP</td>
+                  <td>Dew Point</td>
+                </tr>
+                <tr>
+                	<td>OGR</td>
+                  <td>Grains per Lb</td>
+                </tr>
+                <tr>
+                	<td>CFS</td>
+                  <td>Condenser Fan Speed</td>
+                </tr>
+              </table>
+            </div>
+            <!-- end .condenser.help -->
+            
+            <!-- start .power -->
+            <div class="thermo-callout black power">
+            	<h4>Power</h4>
+              <table cellspacing="0" cellpadding="0">
+              	<tr>
+                	<td>P</td>
+                  <td><span id="PWR">0.0</span> kW</td>
+                </tr>
+                <tr>
+                	<td>EER</td>
+                  <td><span id="EER">0.0</span></td>
+                </tr>
+                <tr>
+                	<td>COP</td>
+                  <td><span id="COP">0.0</span></td>
+                </tr>
+                <tr>
+                	<td>kW/T</td>
+                  <td><span id="kW/T">0.0</span></td>
+                </tr>
+              </table>
+            </div>
+            <!-- end .power -->
+            
+            <!-- start .power.help -->
+            <div class="thermo-callout black power help">
+            	<h4>Power</h4>
+              <table cellspacing="0" cellpadding="0">
+              	<tr>
+                	<td>P</td>
+                  <td>Total System Power</td>
+                </tr>
+                <tr>
+                	<td>EER</td>
+                  <td>Energy Efficiency Ratio</td>
+                </tr>
+                <tr>
+                	<td>COP</td>
+                  <td>Cooefficient of Performance</td>
+                </tr>
+                <tr>
+                	<td>kW/T</td>
+                  <td>kiloWatts per Ton</td>
+                </tr>
+              </table>
+            </div>
+            <!-- end .power.help -->
+            
+            <!-- start .supply-air -->
+            <div class="thermo-callout black supply-air">
+            	<h4>Supply Air</h4>
+              <table cellspacing="0" cellpadding="0">
+                <tr>
+                	<td>SAT</td>
+                  <td><span id="sat">0.0</span> &deg;F</td>
+                </tr>
+                <tr>
+                	<td>DPR</td>
+                  <td><span id="dpr">0.0</span> %</td>
+                </tr>
+                <tr>
+                	<td>EFS</td>
+                  <td><span id="efs">0.0</span> %</td>
+                </tr>
+                <tr>
+                	<td>CAP</td>
+                  <td><span id="cap">0.0</span> T</td>
+                </tr>
+              </table>
+            </div>
+            <!-- end .supply-air -->
+            
+            <!-- start .supply-air.help -->
+            <div class="thermo-callout black supply-air help">
+            	<h4>Supply Air</h4>
+              <table cellspacing="0" cellpadding="0">
+                <tr>
+                	<td>SAT</td>
+                  <td>Supply Air</td>
+                </tr>
+                <tr>
+                	<td>DPR</td>
+                  <td>Damper % Open</td>
+                </tr>
+                <tr>
+                	<td>EFS</td>
+                  <td>Evaporator Fan Speed</td>
+                </tr>
+                <tr>
+                	<td>CAP</td>
+                  <td>Capacity</td>
+                </tr>
+              </table>
+            </div>
+            <!-- end .supply-air.help -->
+            
+          </div>
+          <!-- end .thermo-cutaway -->
+          
+          <!-- start .thermo-climastat -->
+        	<div class="thermo-climastat">
+          	<div class="subtitle">
+            	<div id="tab-circuit" class="threeD circuit tab c1" data-page="thermo" data-circuit="1">Circuit 1</div>
+          		<p>Refrigerant [ <span class="refrigerant-type"></span> ]</p>
+            </div>
+            <img src="images/climastat-3d.jpg" width="596" />
+            <!-- start .circuit1 -->
+            <div class="circuit1">
+              <div class="climastat-low-psig pid"><span id="low-psig">0.0</span> psig</div>
+              <div class="climastat-low-sst pid"><span id="low-sst">0.0</span> sst</div>
+              <div class="climastat-low-es pid"><span id="low-es">0.0</span> ESdF</div>
+              <div class="climastat-high-psig pid"><span id="high-psig">0.0</span> psig</div>
+              <div class="climastat-high-slt pid"><span id="high-slt">0.0</span> slt</div>
+              <div class="climastat-high-cs pid"><span id="high-cs">0.0</span> CSdF</div>
+              
+              <!-- start .climastat-low -->
+              <div class="thermo-callout blue climastat-low">
+                <table cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><span id="cs-low-temp">0.0</span></td>
+                    <td> &deg;F</td>
+                  </tr>
+                  <tr>
+                    <td><span id="cs-low-sh">0.0</span></td>
+                    <td> SH</td>
+                  </tr>
+                  <tr>
+                    <td><span id="cs-low-btu">0.0</span></td>
+                    <td> Btu/lb</td>
+                  </tr>
+                  <tr>
+                  	<td><span id="cs-low-lat">0.0</span></td>
+                		<td>  &deg;F LAT</td>
+                	</tr>
+                </table>
+              </div>
+              <!-- end .climastat-low -->
+              
+              <!-- start .climastat-high -->
+              <div class="thermo-callout red climastat-high">
+                <table cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><span id="cs-high-temp">0.0</span></td>
+                    <td> &deg;F</td>
+                  </tr>
+                  <tr>
+                    <td><span id="cs-high-sc">0.0</span></td>
+                    <td> SC</td>
+                  </tr>
+                  <tr>
+                    <td><span id="cs-high-btu">0.0</span></td>
+                    <td> Btu/lb</td>
+                  </tr>
+                  <tr>
+                    <td><span id="cs-high-gal">0.0</span></td>
+                    <td> lb/gal</td>
+                  </tr>
+                  <tr>
+                    <td><span id="cs-high-gpm">0.0</span></td>
+                    <td> gpm</td>
+                  </tr>
+                </table>
+              </div>
+              <!-- end .climastat-high -->
+            </div>
+            <!-- end .circuit1 -->
+            <!-- start .circuit2 -->
+            <div class="circuit2">
+              <div class="climastat-low-psig pid"><span id="c2-low-psig">0.0</span> psig</div>
+              <div class="climastat-low-sst pid"><span id="c2-low-sst">0.0</span> sst</div>
+              <div class="climastat-low-es pid"><span id="c2-low-es">0.0</span> ESdF</div>
+              <div class="climastat-high-psig pid"><span id="c2-high-psig">0.0</span> psig</div>
+              <div class="climastat-high-slt pid"><span id="c2-high-slt">0.0</span> slt</div>
+              <div class="climastat-high-cs pid"><span id="c2-high-cs">0.0</span> CSdF</div>
+              
+              <!-- start .climastat-low -->
+              <div class="thermo-callout blue climastat-low">
+                <table cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><span id="c2-cs-low-temp">0.0</span></td>
+                    <td> &deg;F</td>
+                  </tr>
+                  <tr>
+                    <td><span id="c2-cs-low-sh">0.0</span></td>
+                    <td> SH</td>
+                  </tr>
+                  <tr>
+                    <td><span id="c2-cs-low-btu">0.0</span></td>
+                    <td> Btu/lb</td>
+                  </tr>
+                  <tr>
+                  	<td><span id="c2-cs-low-lat">0.0</span></td>
+                		<td> &deg;F LAT</td>
+                	</tr>
+                </table>
+              </div>
+              <!-- end .climastat-low -->
+              
+              <!-- start .climastat-high -->
+              <div class="thermo-callout red climastat-high">
+                <table cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><span id="c2-cs-high-temp">0.0</span></td>
+                    <td> &deg;F</td>
+                  </tr>
+                  <tr>
+                    <td><span id="c2-cs-high-sc">0.0</span></td>
+                    <td> SC</td>
+                  </tr>
+                  <tr>
+                    <td><span id="c2-cs-high-btu">0.0</span></td>
+                    <td> Btu/lb</td>
+                  </tr>
+                  <tr>
+                    <td><span id="c2-cs-high-gal">0.0</span></td>
+                    <td> lb/gal</td>
+                  </tr>
+                  <tr>
+                    <td><span id="c2-cs-high-gpm">0.0</span></td>
+                    <td> gpm</td>
+                  </tr>
+                </table>
+              </div>
+              <!-- end .climastat-high -->
+            </div>
+            <!-- end .circuit2 -->
+          </div>
+          <!-- end .thermo-climastat -->
+          
+        </div>
+        <!-- end .main .content -->
+        
+      </div>
+      <!-- end .main.page-thermo -->
+      
+      
+      <!-- start .main.page-control -->
+      <div class="main view page-control">
+      
+      	<!-- start .page-title -->
+      	<div class="page-title">
+        	<div id="tab-circuit" class="threeD circuit tab c1" data-page="control" data-circuit="1">Circuit 1</div>
+        	<p>Manual Control</p>
+        </div>
+        <!-- end .page-title -->
+        
+        <!-- start .main .content -->
+        <div class="content control" style="position: relative;">
+        	
+          
+          <!-- start .ciruit1 -->
+          <div class="" style="z-index: 1;">
+          	<!-- start .control-speed -->
+            <div class="section control-speed">
+              <div class="col first">
+                <div class="col-title">
+                  <p>Blower Speed</p>
+                </div>
+                <div id="control-blower-speed" class="control-dial" style="max-width: 182px;"></div>
+              </div>
+              <div class="col last">
+                <div class="col-title">
+                  <p>Fan Speed</p>
+                </div>
+                <div id="control-fan-speed" class="control-dial" style="max-width: 182px;"></div>
+              </div>
+              <div class="col" style="float: none; width: 100%; clear: both;">
+                <div id="control-bp-damper" class="control-dial" style="max-width: 182px;"></div>
+                <div class="col-title" style="max-width: 182px; margin: 0px auto 0px auto; text-align:center;">
+                  <p>BP Damper</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end .control-speed -->
+          
+          <!-- start .control-eer -->
+          <div class="circuit1">
+            <div class="section control-eer">
+              <div class="col first">
+                <div id="control-multi-gauge"></div>
+              </div>
+              <div class="col last">
+                <div class="col-title" style="color:#000; margin: 0 0 3px 0;">
+                  <p>Charge</p>
+                </div>
+                <div id="control-charge-switch" style="width: 134px;"></div>
+                <div class="col-title" style="color:#000; margin: 0 0 0 0;">
+                  <p>Discharge</p>
+                </div>
+              </div>
+            </div>
+            <!-- end .control-speed -->
+            
+            <!-- start .control-stats -->
+            <div class="section control-stats">
+              <div class="control-stats-table">
+                <table cellpadding="0" cellspacing="0">
+                  <tr class="hi">
+                    <td><strong>HI</strong>:</td>
+                    <td><strong id="control-stats-h-psi">0.0</strong> PSIG</td>
+                    <td><strong id="control-stats-h-slt">0.0</strong> SLT</td>
+                    <td><strong id="control-stats-h-sc">0.0</strong> SC</td>
+                    <td><strong id="control-stats-h-cs">0.0</strong> CS</td>
+                  </tr>
+                  <tr class="lo">
+                    <td><strong>LO</strong>:</td>
+                    <td><strong id="control-stats-l-psi">0.0</strong> PSIG</td>
+                    <td><strong id="control-stats-l-sst">0.0</strong> SST</td>
+                    <td><strong id="control-stats-l-sh">0.0</strong> SH</td>
+                    <td><strong id="control-stats-l-es">0.0</strong> ES</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <!-- end .control-stats -->
+        	</div>
+          <!-- end .circuit1 -->
+          
+          <!-- start .circuit2 -->
+          <div class="circuit2">
+          <!-- start .circuit2 .control-eer -->
+            <div class="section control-eer">
+              <div class="col first">
+                <div id="c2-control-multi-gauge"></div>
+              </div>
+              <div class="col last">
+                <div class="col-title">
+                  <p>Charge</p>
+                </div>
+                <div id="c2-control-charge-switch" style="width: 134px;"></div>
+                <div class="col-title" style="margin: 22px 0;">
+                  <p>Discharge</p>
+                </div>
+              </div>
+            </div>
+            <!-- end .control-speed -->
+            
+            <!-- start .control-stats -->
+            <div class="section control-stats">
+              <div class="control-stats-table">
+                <table cellpadding="0" cellspacing="0">
+                  <tr class="hi">
+                    <td><strong>HI</strong>:</td>
+                    <td><strong id="c2-control-stats-h-psi">0.0</strong> PSIG</td>
+                    <td><strong id="c2-control-stats-h-slt">0.0</strong> SLT</td>
+                    <td><strong id="c2-control-stats-h-sc">0.0</strong> SC</td>
+                    <td><strong id="c2-control-stats-h-cs">0.0</strong> CS</td>
+                  </tr>
+                  <tr class="lo">
+                    <td><strong>LO</strong>:</td>
+                    <td><strong id="c2-control-stats-l-psi">0.0</strong> PSIG</td>
+                    <td><strong id="c2-control-stats-l-sst">0.0</strong> SST</td>
+                    <td><strong id="c2-control-stats-l-sh">0.0</strong> SH</td>
+                    <td><strong id="c2-control-stats-l-es">0.0</strong> ES</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <!-- end .control-stats -->
+        	</div>
+          <!-- end .circuit2 -->
+        </div>
+        <!-- end .main .content -->
+        
+      </div>
+      <!-- end .main.page-control -->
+      
+      
+      <!-- start .main.page-setup -->
+      <div class="main view page-setup">
+      
+      	<!-- start .page-title -->
+      	<!--<div class="page-title">
+        	<p>Setup</p>
+        </div>-->
+        <!-- end .page-title -->
+        
+        <!-- start .main .content -->
+        <div class="content setup">
+        	<div class="section setup-folder-system">
+            <div class="folder-tabs">
+              <a class="folder-tab active" href="javascript:void(0);" data-folder="settings">Settings</a>
+              <a class="folder-tab" href="javascript:void(0);" data-folder="calibration">Calibration</a>
+            </div>
+            <div class="folders">
+              <div class="folder-content setup-settings active">
+              	
+                <div class="setting">
+                  <label>Site Name:</label>
+                  <div class="setting-value">
+                    <input id="siteName" type="text" />
+                  </div>
+                </div>
+                
+                <div class="setting">
+                  <label>Refrigerant Type:</label>
+                  <select id="RfgtChoice" onchange="SetChoice('RfgtChoice')">
+                    <option selected="selected" disabled="disabled" value="">Select</option>
+                    <option value="R22">R22</option>
+                    <option value="R410a">R410a</option>
+                  </select>
+                </div>
+                
+                <div class="setting">
+                  <label>Power Type:</label>
+                  <select id="PwrChoice" onchange="SetChoice('PwrChoice')">
+                    <option selected="selected" disabled="disabled" value="">Select</option>
+                    <option value="1p2w">1 Phase, 2 Wire</option>
+                    <option value="3p3w">3 Phase, 3 Wire</option>
+                    <option value="3p4w">3 Phase, 4 Wire</option>
+                  </select>
+                </div>
+                
+                <div class="setting">
+                  <label>Electric Utility Rate:</label>
+                  <div class="setting-value">
+                    <input id="elUtRate" type="text" /> <span style="color:#fff;">($/kWh)</span>
+                  </div>
+                </div>
+                
+                <div class="setting">
+                  <label>System Rate:</label>
+                  <select id="a1">
+                    <option value="1">1 sec</option>
+                    <option value="2">2 sec</option>
+                    <option value="3">3 sec</option>
+                    <option value="4">4 sec</option>
+                    <option value="5" selected="selected">5 sec</option>
+                    <option value="6">6 sec</option>
+                    <option value="7">7 sec</option>
+                    <option value="8">8 sec</option>
+                    <option value="9">9 sec</option>
+                    <option value="10">10 sec</option>
+                  </select>
+                </div>
+                
+                <div class="setting">
+                  <label>Compressors:</label>
+                  <select id="cNum">
+                    <option value="comp2">2 Compressors</option>
+                    <option value="comp4">4 Compressors</option>
+                  </select>
+                </div>
+                
+                <div class="setting">
+                  <label>Gauge Tonnage:</label>
+                  <select id="setTons">
+                    <option value="35">35 Tons</option>
+                    <option value="75">75 Tons</option>
+                  </select>
+                </div>
+                
+                 <div class="setting">
+                  <label>OEM Values:</label>
+                  <table cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td>
+                        EER: <input id="oemEER" class="oem-val" data-target="oem-eer" type="text" />
+                      </td>
+                      <td>
+                        IEER: <input id="oemIEER" class="oem-val"  data-target="oem-ieer" type="text" />
+                      </td>
+                      <td>
+                        kW/T: <input id="oemKWT" class="oem-val"  data-target="oem-kwt" type="text" />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <!-- end .folder-content.setup-settings -->
+              <!-- start .folder-content.setup-calibration -->
+              <div class="folder-content setup-calibration">
+                <!-- start .twin-circuit -->
+                <div class="twin-circuit">
+                  <dl class="sensor-grid">
+                    <dt>Temperature Sensors[F]:</dt>
+                    <dd>
+                    	<table cellpadding="0" cellspacing="0">
+                      	<tr>
+                        	<td class="label">REFERENCE</td>
+                          <td class="ref-val"><input id="tRef" type="text" /></td>
+                          <td><input id="tempCal" class="cal-button" type="button" value="Calibrate" /></td>
+                          <td><input id="tempReset" class="cal-button" type="button" value="Reset" /></td>
+                          <td class="label">T5 DTS SAT</td>
+                          <td class="val"><input id="mt5" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">T1 LTS Hi1</td>
+                          <td class="val"><input id="mt1" type="text" /></td>
+                          <td class="label">T2 VTS Lo1</td>
+                          <td class="val"><input id="mt2" type="text" /></td>
+                          <td class="label">T6 COIL LAT1</td>
+                          <td class="val"><input id="mt6" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">T7 LTS Hi2</td>
+                          <td class="val"><input id="mt7" type="text" /></td>
+                          <td class="label">T8 VTS Lo2</td>
+                          <td class="val"><input id="mt8" type="text" /></td>
+                          <td class="label">T9 COIL LAT2</td>
+                          <td class="val"><input id="mt9" type="text" /></td>
+                        </tr>
+                      </table>
+                    </dd>
+                    <dt>Humidity [%rh] -- Temperature Sensors [F]</dt>
+                    <dd>
+                    	<table cellpadding="0" cellspacing="0">
+                      	<tr>
+                        	<td class="label">REFERENCE</td>
+                          <td class="ref-val"><input id="hRef1" type="text" /></td>
+                          <td colspan="2" rowspan="3">
+                          	<p>
+                            	<input id="humidityCal1" class="cal-button" type="button" value="Calibrate" />
+                          		<input id="humidityCal2" class="cal-button" type="button" value="Calibrate" />
+                            </p>
+                            <p>
+                            	<input id="humidityReset1" class="cal-button" type="button" value="Reset" />
+                          		<input id="humidityReset2" class="cal-button" type="button" value="Reset" />
+                            </p>
+                          </td>
+                          <td class="label">REFERENCE</td>
+                          <td class="ref-val"><input id="hRef2" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">T3 CTS OA</td>
+                          <td class="val"><input id="mt3" type="text" /></td>
+                          <td class="label">H3 RH OA</td>
+                          <td class="val"><input id="mh3" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">T4 ETS EAT</td>
+                          <td class="val"><input id="mt4" type="text" /></td>
+                          <td class="label">H4 ETW ERH</td>
+                          <td class="val"><input id="mh4" type="text" /></td>
+                        </tr>
+                      </table>
+                    </dd>
+                    <dt>Pressure Sensors [psig]</dt>
+                    <dd>
+                    	<table cellpadding="0" cellspacing="0">
+                      	<tr>
+                        	<td class="label">REFERENCE</td>
+                          <td class="ref-val"><input id="pRef" type="text" /></td>
+                          <td><input id="presCal" class="cal-button" type="button" value="Calibrate" /></td>
+                          <td><input id="presReset" class="cal-button" type="button" value="Reset" /></td>
+                          <td class="label">AVERAGE</td>
+                          <td class="val"><input id="pAvg" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">P1 HPS1</td>
+                          <td class="val"><input id="mp1" type="text" /></td>
+                          <td class="label">P2 LPS1</td>
+                          <td class="val"><input id="mp2" type="text" /></td>
+                          <td class="label">P3 FPS1</td>
+                          <td class="val"><input id="mp3" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">P4 HPS1</td>
+                          <td class="val"><input id="mp4" type="text" /></td>
+                          <td class="label">P5 LPS2</td>
+                          <td class="val"><input id="mp5" type="text" /></td>
+                          <td class="label">P6 FPS2</td>
+                          <td class="val"><input id="mp6" type="text" /></td>
+                        </tr>
+                      </table>
+                    </dd>
+                    <dt>Power Sensors [Watts]</dt>
+                    <dd>
+                      <table class="power-grid" cellpadding="0" cellspacing="0">
+                      	<tr>
+                        	<td class=""> </td>
+                          <td class=""></td>
+                          <td><input id="powerCal" class="cal-button" type="button" value="Calibrate" /></td>
+                          <td><input id="powerReset" class="cal-button" type="button" value="Reset" /></td>
+                          <td class="label">kw SENS</td>
+                          <td class="val"><input id="kwSens" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">y1 reference</td>
+                          <td class="ref-val"><input id="pY1Ref" type="text" /></td>
+                          <td class="label">y2 reference</td>
+                          <td class="ref-val"><input id="pY2Ref" type="text" /></td>
+                          <td class="label">m</td>
+                          <td class="val"><input id="powerM" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">x1 kW sens</td>
+                          <td class="ref-val"><input id="x1KWSens" type="text" /></td>
+                          <td class="label">x2 kW sens</td>
+                          <td class="ref-val"><input id="x2KWSens" type="text" /></td>
+                          <td class="label">b</td>
+                          <td class="val"><input id="powerB" type="text" /></td>
+                        </tr>
+                      </table>
+                    </dd>
+                    <dt>Flow Sensors [gpm]</dt>
+                    <dd>
+                    	<table class="flow-grid" cellpadding="0" cellspacing="0">
+                      	<tr>
+                        	<td class="label">y1 reference</td>
+                          <td class="ref-val"><input id="fY1Ref" type="text" /></td>
+                          <td class="label">FLOW-1 gpm</td>
+                          <td class="val"><input id="f1Gpm" type="text" /></td>
+                          <td class="label">y1 reference</td>
+                          <td class="ref-val"><input id="fY1Ref2" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">x1 dP1-3</td>
+                          <td class="ref-val"><input id="fX1Dp1-3" type="text" /></td>
+                          <td class="label">delta P1-P3</td>
+                          <td class="val"><input id="fDeltaP1P3" type="text" /></td>
+                          <td class="label">x1 dP4-6</td>
+                          <td class="ref-val"><input id="fX1Dp4-6" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">y2 reference</td>
+                          <td class="ref-val"><input id="fY2Ref" type="text" /></td>
+                          <td class="label">FLOW-2 gpm</td>
+                          <td class="val"><input id="f2Gpm" type="text" /></td>
+                          <td class="label">y2 reference</td>
+                          <td class="ref-val"><input id="fY2Ref2" type="text" /></td>
+                        </tr>
+                         <tr>
+                        	<td class="label">x2 dP1-3</td>
+                          <td class="ref-val"><input id="fX2Dp1-3" type="text" /></td>
+                          <td class="label">delta P4-P6</td>
+                          <td class="val"><input id="fDeltaP4P6" type="text" /></td>
+                          <td class="label">x2 dP4-6</td>
+                          <td class="ref-val"><input id="fX2Dp4-6" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">m-1</td>
+                          <td class="val"><input id="fm1" type="text" /></td>
+                          <td><input id="flowCal1" class="cal-button" type="button" value="Calibrate" /></td>
+                          <td><input id="flowCal2" class="cal-button" type="button" value="Calibrate" /></td>
+                          <td class="label">m-2</td>
+                          <td class="val"><input id="fm2" type="text" /></td>
+                        </tr>
+                        <tr>
+                        	<td class="label">b-1</td>
+                          <td class="val"><input id="fb1" type="text" /></td>
+                          <td><input id="flowReset1" class="cal-button" type="button" value="Reset" /></td>
+                          <td><input id="flowReset2" class="cal-button" type="button" value="Reset" /></td>
+                          <td class="label">b-2</td>
+                          <td class="val"><input id="fb2" type="text" /></td>
+                        </tr>
+                      </table>
+            				</dd>
+                  </dl>
+                </div>
+                <!-- end .twin-circuit -->
+              </div>
+              <!-- end .section.setup-calibration -->
+            </div> <!-- end .folders -->
+          </div> <!-- end .folder-system -->
+          <!-- start .console-container -->
+          <div class="console-container">
+            <div class="view-log">
+              <img src="images/btn-view-log.png" width="26" />
+              <p>View<br />Log</p>
+            </div>
+            <div id="console" class="console">
+            </div>
+          </div>
+          <!-- end .console-container -->
+          
+        </div>
+        <!-- end .main .content -->
+            
+      </div>
+      <!-- end .main.page-setup -->
+      
+      
+      <!-- start .sidebar -->
+      <div class="sidebar">
+      	<div class="nav-button  active">
+        	<a href="javascript:void(0);" data-target="page-main">
+        		<img src="images/btn-main.png" width="124" height="auto" />
+          	<p>Main</p>
+          </a>
+        </div>
+        <div class="nav-button">
+        	<a href="javascript:void(0);" data-target="page-refrigerant">
+        		<img src="images/btn-refrigerant.png" width="124" height="auto" />
+          	<p>Refrigerant</p>
+          </a>
+        </div>
+        <div class="nav-button">
+        	<a href="javascript:void(0);" data-target="page-energy">
+          	<img src="images/btn-energy.png" width="124" height="auto" />
+          	<p>Energy</p>
+          </a>
+        </div>
+        <div class="nav-button">
+        	<a href="javascript:void(0);"  data-target="page-thermo">
+          	<img src="images/btn-thermo.png" width="124" height="auto" />
+          	<p>Thermo</p>
+          </a>
+        </div>
+        <div class="nav-button">
+        	<a href="javascript:void(0);" data-target="page-control">
+          	<img src="images/btn-control.png" width="124" height="auto" />
+          	<p>Control</p>
+          </a>
+        </div>
+        <div class="nav-button">
+        	<a href="javascript:void(0);" data-target="page-setup">
+          	<img src="images/btn-setup.png" width="124" height="auto" />
+          	<p>Setup</p>
+          </a>
+        </div>
+      </div>
+      <!-- end .sidebar -->
+      
+    </div>
+    <!-- end .page -->
+    
+		<script type="text/javascript">
+			var conDisabled = false;
+			var multiClient = true;
+    </script>
+    
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/mscorlib.js"></script>
+    <script type="text/javascript" src="js/PerfectWidgets.js"></script>
+    <script type="text/javascript" src="js/gauge-models.js"></script>
+    <script type="text/javascript" src="js/jquery.alerts.js"></script>
+    <script type="text/javascript" src="js/visual.js"></script>
+    <script type="text/javascript" src="js/sockets.js"></script>
+    
+  </body>
+</html>
